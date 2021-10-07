@@ -19,17 +19,7 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char const *argv[])
             ip_pool.push_back(split(v.front(), '.'));
         }
 
-        auto ip_parts_comparator = [](const auto& first, const auto& second)
-        {
-            // We need to sort in reverse order, so we reverse first and second here, 
-            // as this function returns true if the first is less than second
-            return lex_compare_strings(second, first);
-        };
-
-        std::sort(ip_pool.begin(), ip_pool.end(), [ip_parts_comparator](const auto& ip1, const auto& ip2)
-        {
-            return lex_compare_ip(ip1, ip2, ip_parts_comparator);
-        });
+        ip_pool = reverse_sort(ip_pool);
 
         print_ip_pool(std::cout, ip_pool);
         print_ip_pool(std::cout, filter(ip_pool, 1));

@@ -27,7 +27,7 @@ namespace helper
     {
         try
         {
-        return std::make_pair(std::stoi(str), true);
+            return std::make_pair(std::stoi(str), true);
         }
         catch(const std::invalid_argument&)
         {
@@ -60,7 +60,23 @@ namespace helper
                                             comparator);
     }
 
-    void output_ip_address(std::ostream& out, const IPAddress& ip)
+    IPAddresses reverse_sort(IPAddresses ip_pool)
+    {
+        auto ip_parts_comparator = [](const auto& first, const auto& second)
+        {
+            // We need to sort in reverse order, so we reverse first and second here, 
+            // as this function returns true if the first is less than second
+            return lex_compare_strings(second, first);
+        };
+
+        std::sort(ip_pool.begin(), ip_pool.end(), [ip_parts_comparator](const auto& ip1, const auto& ip2)
+        {
+            return lex_compare_ip(ip1, ip2, ip_parts_comparator);
+        });
+        return ip_pool;
+    }
+
+    void output_ip_address(std::ostream& out, const IPAddress& ip, bool addNewLine)
     {
         bool is_first =  true;
         for(const auto& ip_part : ip)
@@ -72,7 +88,8 @@ namespace helper
             is_first = false;
             out << ip_part;
         }
-        out << std::endl;
+        if (addNewLine)
+            out << std::endl;
     }
 
     void print_ip_pool(std::ostream& out, const IPAddresses& ip_pool)

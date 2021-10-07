@@ -7,9 +7,23 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 project(ip_filter VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
+include(conan.cmake)
+conan_cmake_configure(REQUIRES boost/1.77.0
+                      GENERATORS cmake_find_package)
+
+conan_cmake_autodetect(settings)
+
+conan_cmake_install(PATH_OR_REFERENCE .
+                    BUILD missing
+                    REMOTE conancenter
+                    SETTINGS ${settings})
+
 
 add_library(helper_library helper_library.cpp)
 add_executable(ip_filter ip_filter.cpp)
+
+enable_testing()
+add_subdirectory(tests)
 
 set_target_properties(ip_filter helper_library PROPERTIES
     CXX_STANDARD 14

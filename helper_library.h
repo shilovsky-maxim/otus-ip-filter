@@ -16,9 +16,10 @@ namespace helper
     std::pair<int, bool> convert_to_int(const std::string& str);
     bool lex_compare_strings(const std::string& first, const std::string& second);
     bool lex_compare_ip(const IPAddress& first, const IPAddress& second, IPPartComparator comparator);
-    void output_ip_address(std::ostream& out, const IPAddress& ip);
+    void output_ip_address(std::ostream& out, const IPAddress& ip, bool addNewLine = true);
     void print_ip_pool(std::ostream& out, const IPAddresses& ip_pool);
 
+    IPAddresses reverse_sort(IPAddresses ip_pool);
     IPAddresses filter(IPAddresses ip_pool, int first_byte, int second_byte = -1);
     IPAddresses filter_any(IPAddresses ip_pool, int value);
 
