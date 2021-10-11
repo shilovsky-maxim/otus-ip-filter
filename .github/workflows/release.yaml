@@ -17,11 +17,8 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config DEBUG
 
-      - name: cd to build dir
-        run: cd ${{github.workspace}}/build
-
       - name: Run tests
-        run: ctest
+        run: ctest --test-dir ${{github.workspace}}/build
 
       - name: Pack
         run: cpack --config ${{github.workspace}}/build/CPackConfig.cmake
